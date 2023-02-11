@@ -1,7 +1,12 @@
 package main
 
+import (
+	"imagedisplay/db"
+	"imagedisplay/initializers"
+)
+
 func init() {
-	db.ConnectDB()
+	db.COnnectDb()
 	initializers.LoadEnvVariables()
 
 }
