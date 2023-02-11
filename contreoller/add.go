@@ -18,17 +18,20 @@ func InsertANimageToDatabase(c *gin.Context) {
 	images := models.Document{
 		Image: img1,
 	}
-	db.Db.Create(&images)
+	db.DBS.Create(&images)
 }
 func Viewimages(c *gin.Context) {
 
 	var docs []models.Document
-	db.Db.Find(&docs)
+	db.DBS.Find(&docs)
 	for _, i := range docs {
 		c.JSON(200, gin.H{
 			"id":    i.ID,
 			"image": i.Image,
 		})
 	}
+
+}
+func Search(c *gin.Context) {
 
 }
