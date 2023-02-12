@@ -56,13 +56,7 @@ func Viewimages(c *gin.Context) {
 	}
 
 }
-func Search(c *gin.Context) {
-	var body struct {
-		text string
-	}
-	c.BindHeader(&body)
 
-}
 func FindWord(c *gin.Context) {
 	var body struct {
 		word string
