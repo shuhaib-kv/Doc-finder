@@ -7,7 +7,8 @@ import (
 )
 
 func Allroutes(c *gin.Engine) {
-	c.POST("/addimage", contreoller.InsertANimageToDatabase)
-	c.GET("/viewimage", contreoller.Viewimages)
+	c.POST("/add", contreoller.Add)
+	c.GET("/view", contreoller.Viewimages)
+	c.GET("/search", contreoller.Search)
 
 }
