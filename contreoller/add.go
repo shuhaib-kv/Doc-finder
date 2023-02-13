@@ -33,8 +33,8 @@ func Add(c *gin.Context) {
 		return
 	}
 	uplode := models.Document{
-		FileData: img1,
-		Text:     text,
+		FileData:    img1,
+		Textinimage: text,
 	}
 	db.DBS.Create(&uplode)
 	c.JSON(http.StatusOK, gin.H{
@@ -60,7 +60,7 @@ func Viewimages(c *gin.Context) {
 
 func Search(c *gin.Context) {
 	var body struct {
-		word string
+		Word string `json:"word"`
 	}
 	if err := c.BindJSON(&body); err != nil {
 		c.JSON(http.StatusConflict, gin.H{
@@ -70,22 +70,29 @@ func Search(c *gin.Context) {
 		})
 		return
 	}
-	var b []string
-	var Document models.Document
-	db.DBS.Where("text ILIKE ?", "%"+body.word+"%").First(&Document).Scan(&b)
-	if b != nil {
-		c.JSON(http.StatusCreated, gin.H{
-			"status":  true,
-			"message": "word fount",
-			"data":    Document.FileData,
+	var count int64
+	if err := db.DBS.Model(&models.Document{}).Where("text ilike ?", "%"+body.Word+"%").Count(&count).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"status":  false,
+			"message": "Error searching for word in database",
+			"data":    nil,
 		})
 		return
 	}
 
-	c.JSON(http.StatusCreated, gin.H{
-		"status":  false,
-		"message": "word not found",
-		"data":    body.word,
+	if count == 0 {
+		c.JSON(http.StatusOK, gin.H{
+			"status":  false,
+			"message": "Word not found",
+			"data":    nil,
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"status":  true,
+		"message": "Word found",
+		"data":    nil,
 	})
 
 }

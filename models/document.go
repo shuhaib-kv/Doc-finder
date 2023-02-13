@@ -6,8 +6,8 @@ import (
 
 type Document struct {
 	gorm.Model
-	FileData string `json:"image"`
-	Text     string
+	FileData    string `json:"image"`
+	Textinimage string
 }
 type PDF struct {
 	ID      int
